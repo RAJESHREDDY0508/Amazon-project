@@ -1,3 +1,4 @@
+import {cart} from '../javascript-amazon-project-main/data/cart.js';
 
 let productsHTML = '';
 
