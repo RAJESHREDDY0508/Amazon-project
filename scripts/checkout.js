@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from "../javascript-amazon-project-main/data/cart.js";
+import { cart, removeFromCart, updateDeliveryOption } from "../javascript-amazon-project-main/data/cart.js";
 import { Products } from "../javascript-amazon-project-main/data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
@@ -75,6 +75,10 @@ cart.forEach((cartItem) => {
             </span>
           </div>
         </div>
+        <div class="delivery-options">
+          <div class="delivery-options-title">
+            Choose a delivery option:
+          </div>
           <div class="delivery-option">
             <input type="radio"
               class="delivery-option-input"
@@ -88,7 +92,7 @@ cart.forEach((cartItem) => {
               </div>
             </div>
           </div>
-          ${deliveryOptionsHTML(matchingProduct, cartItem)}
+        ${deliveryOptionsHTML(matchingProduct, cartItem)}
         </div>
       </div>
     </div>
@@ -111,7 +115,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
   html += `
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-option" data-product-id = "${matchingProduct.id}" data-delivery-option-id = "${deliveryOption.id}">
       <input type="radio"
       ${isChecked ? 'checked' : ''}
         class="delivery-option-input"
@@ -142,5 +146,12 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
       `.js-cart-item-container-${productId}`
     );
     container.remove();
+  });
+});
+
+document.querySelectorAll('.js-delivery-option').forEach((element) =>{
+  element.addEventListener('click', () => {
+    const {productId, deliveryOptionId} = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
   });
 });
