@@ -6,17 +6,23 @@ import { loadCart } from "../javascript-amazon-project-main/data/cart.js";
 //import '../javascript-amazon-project-main/data/backend-practice.js';
 
 async function loadPage() {
+  try{
+    //throw 'error1';
+    await loadProductsFetch();
 
-  await loadProductsFetch();
+    const value = await new Promise((resolve, reject) => {
+      //throw 'error2
+        loadCart(() => {
+        // reject('error3');
+        resolve();
+      });
+    })
+  } catch(error) {
+    console.log('Unexpected error.Please try again later...');
+  }
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    });
-  })
-
-  renderOrderSummary();
-  renderPaymentSummary();
+    renderOrderSummary();
+    renderPaymentSummary();
 
 }
 loadPage();
